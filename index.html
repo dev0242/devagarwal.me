@@ -1,10 +1,74 @@
+<!--Dev Agarwal 9/16. Claude Code assisted in writing this code, but all work is my own.-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>devagarwal.me</title>
+    <meta name="description" content="Personal site of Dev Agarwal, a student at Dartmouth.">
+
+    <style>
+        :root {
+            --paper:  #fbfaf8;  /* warm off-white background */
+            --ink:    #23282e;  /* near-black body text     */
+            --teal:   #2c5f5d;  /* deep teal accent         */
+            --muted:  #6f7680;  /* secondary text           */
+            --rule:   #e6e2dc;  /* hairline borders         */
+        }
+
+        body {
+            margin: 0 auto;
+            max-width: 40rem;
+            padding: 3.5rem 1.25rem;
+            font: 16px/1.65 system-ui, sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+        }
+
+        h1 {
+            margin-bottom: 0.25rem;
+            color: var(--teal);
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            margin-top: 2.5rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+        }
+
+        .tagline { color: var(--muted); margin-top: 0; }
+
+        a { color: var(--teal); text-underline-offset: 3px; }
+
+        footer {
+            margin-top: 3.5rem;
+            border-top: 1px solid var(--rule);
+            padding-top: 1rem;
+            font-size: 0.875rem;
+            color: var(--muted);
+        }
+    </style>
 </head>
+
 <body>
-My personal webpage
+<h1>Dev Agarwal</h1>
+<p class="tagline">I'm taking CS52: Full-Stack Web Development.</p>
+
+<h2>Some text</h2>
+<ul>
+    <li>Bullet points</li>
+</ul>
+
+<h2>Links</h2>
+<ul>
+    <li><a href="https://github.com/dev0242">GitHub</a></li>
+</ul>
+
+<footer>
+    <p>Thanks for visiting!</p>
+</footer>
 </body>
 </html>
