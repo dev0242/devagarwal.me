@@ -7,6 +7,15 @@
     <title>devagarwal.me</title>
     <meta name="description" content="Personal site of Dev Agarwal, a student at Dartmouth.">
 
+    <script>
+        // Apply saved (or system) theme before first paint to avoid a flash.
+        (function () {
+            var saved = localStorage.getItem('theme');
+            var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        })();
+    </script>
+
     <style>
         :root {
             --paper:  #fbfaf8;  /* warm off-white background */
@@ -15,6 +24,30 @@
             --muted:  #6f7680;  /* secondary text           */
             --rule:   #e6e2dc;  /* hairline borders         */
         }
+
+        :root[data-theme="dark"] {
+            --paper:  #14181c;  /* dark background          */
+            --ink:    #e8e6e3;  /* light text               */
+            --teal:   #5fc4bf;  /* lighter teal accent      */
+            --muted:  #9aa3ad;  /* secondary text           */
+            --rule:   #2c333a;  /* hairline borders         */
+            color-scheme: dark;
+        }
+
+        .theme-toggle {
+            display: block;
+            margin: 0 0 1.5rem auto;
+            padding: 0.35rem 0.8rem;
+            font: inherit;
+            font-size: 0.875rem;
+            color: var(--ink);
+            background: transparent;
+            border: 1px solid var(--rule);
+            border-radius: 999px;
+            cursor: pointer;
+        }
+
+        .theme-toggle:hover { border-color: var(--teal); color: var(--teal); }
 
         body {
             margin: 0 auto;
@@ -54,6 +87,8 @@
 </head>
 
 <body>
+<button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode"></button>
+
 <h1>Dev Agarwal</h1>
 <p class="tagline">I'm taking CS52: Full-Stack Web Development.</p>
 
@@ -70,5 +105,20 @@
 <footer>
     <p>Thanks for visiting!</p>
 </footer>
+<script>
+    var root = document.documentElement;
+    var toggle = document.getElementById('theme-toggle');
+    function render() {
+        var dark = root.dataset.theme === 'dark';
+        toggle.textContent = dark ? '☀️ Light' : '🌙 Dark';
+        toggle.setAttribute('aria-pressed', dark);
+    }
+    toggle.addEventListener('click', function () {
+        root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', root.dataset.theme);
+        render();
+    });
+    render();
+</script>
 </body>
 </html>
