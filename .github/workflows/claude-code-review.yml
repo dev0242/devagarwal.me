@@ -38,6 +38,9 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           # Review PRs that Claude opens from @claude issue fixes
           allowed_bots: 'claude'
+          # Log Claude's full conversation so we can see why a review was skipped.
+          # Temporary: this makes the output visible to anyone who can view the Actions logs.
+          show_full_output: true
           plugin_marketplaces: 'https://github.com/anthropics/claude-code.git'
           plugins: 'code-review@claude-code-plugins'
           prompt: '/code-review:code-review --comment ${{ github.repository }}/pull/${{ github.event.pull_request.number }}'
