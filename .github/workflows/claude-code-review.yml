@@ -41,10 +41,24 @@ jobs:
           # Log Claude's full conversation so we can see why a review was skipped.
           # Temporary: this makes the output visible to anyone who can view the Actions logs.
           show_full_output: true
-          plugin_marketplaces: 'https://github.com/anthropics/claude-code.git'
-          plugins: 'code-review@claude-code-plugins'
-          prompt: '/code-review:code-review --comment ${{ github.repository }}/pull/${{ github.event.pull_request.number }}'
-          claude_args: '--allowedTools "mcp__github_inline_comment__create_inline_comment"'
+          # A direct prompt instead of the code-review plugin: the plugin delegates its first
+          # step to a background agent, and the run ended before that agent reported back.
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
+            Review this pull request for bugs. Read the diff with `gh pr diff` and the
+            changed files in the checkout, and do the review yourself in this session
+            (don't hand it off to subagents).
+
+            Focus on real defects: code that crashes, behaves incorrectly, or breaks
+            existing functionality. Skip style nits.
+
+            For each bug, leave an inline comment on the relevant line explaining the
+            problem and the fix, with a suggestion block when the fix is small. If you
+            find no bugs, leave one short PR comment saying so.
+          claude_args: |
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"
           # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
           # or https://code.claude.com/docs/en/cli-reference for available options
 
