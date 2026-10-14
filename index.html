@@ -7,13 +7,33 @@
     <title>devagarwal.me</title>
     <meta name="description" content="Personal site of Dev Agarwal, a student at Dartmouth.">
 
+    <script>
+        // Apply the saved (or system) theme before first paint to avoid a flash.
+        (function () {
+            var saved = null;
+            try { saved = localStorage.getItem('theme'); } catch (e) {}
+            var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        })();
+    </script>
+
     <style>
         :root {
+            color-scheme: light;
             --paper:  #fbfaf8;  /* warm off-white background */
             --ink:    #23282e;  /* near-black body text     */
             --teal:   #2c5f5d;  /* deep teal accent         */
             --muted:  #6f7680;  /* secondary text           */
             --rule:   #e6e2dc;  /* hairline borders         */
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+            --paper:  #14181c;  /* dark background      */
+            --ink:    #e6e8ea;  /* light text           */
+            --teal:   #5fc4bd;  /* lighter teal accent  */
+            --muted:  #98a1ab;  /* secondary text       */
+            --rule:   #2c3339;  /* hairline borders     */
         }
 
         body {
@@ -43,6 +63,21 @@
 
         a { color: var(--teal); text-underline-offset: 3px; }
 
+        .theme-toggle {
+            display: block;
+            margin: 0 0 1.5rem auto;
+            padding: 0.35rem 0.8rem;
+            font: inherit;
+            font-size: 0.875rem;
+            color: var(--teal);
+            background: transparent;
+            border: 1px solid var(--rule);
+            border-radius: 999px;
+            cursor: pointer;
+        }
+
+        .theme-toggle:hover { border-color: var(--teal); }
+
         footer {
             margin-top: 3.5rem;
             border-top: 1px solid var(--rule);
@@ -54,6 +89,8 @@
 </head>
 
 <body>
+<button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to dark mode"></button>
+
 <h1>Dev Agarwal</h1>
 <p class="tagline">I'm taking CS52: Full-Stack Web Development.</p>
 
@@ -70,5 +107,27 @@
 <footer>
     <p>Thanks for visiting!</p>
 </footer>
+
+<script>
+    (function () {
+        var root = document.documentElement;
+        var btn = document.getElementById('theme-toggle');
+
+        function render() {
+            var dark = root.dataset.theme === 'dark';
+            btn.textContent = dark ? '☀️ Light' : '🌙 Dark';
+            btn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+        }
+
+        btn.addEventListener('click', function () {
+            var next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+            root.dataset.theme = next;
+            try { localStorage.setItem('theme', next); } catch (e) {}
+            render();
+        });
+
+        render();
+    })();
+</script>
 </body>
 </html>
