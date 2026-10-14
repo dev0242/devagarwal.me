@@ -7,6 +7,17 @@
     <title>devagarwal.me</title>
     <meta name="description" content="Personal site of Dev Agarwal, a student at Dartmouth.">
 
+    <script>
+        // Set theme before first paint to avoid a flash: saved choice, else OS preference.
+        (function () {
+            var saved = null;
+            try { saved = localStorage.getItem('theme'); } catch (e) {}
+            var dark = saved ? saved === 'dark'
+                             : window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        })();
+    </script>
+
     <style>
         :root {
             --paper:  #fbfaf8;  /* warm off-white background */
@@ -14,7 +25,32 @@
             --teal:   #2c5f5d;  /* deep teal accent         */
             --muted:  #6f7680;  /* secondary text           */
             --rule:   #e6e2dc;  /* hairline borders         */
+            color-scheme: light;
         }
+
+        :root[data-theme="dark"] {
+            --paper:  #14181c;  /* dark background          */
+            --ink:    #e8e6e3;  /* light text               */
+            --teal:   #5fb8b3;  /* lighter teal accent      */
+            --muted:  #9aa1a9;  /* secondary text           */
+            --rule:   #2c333a;  /* hairline borders         */
+            color-scheme: dark;
+        }
+
+        .theme-toggle {
+            display: block;
+            margin: 0 0 1.5rem auto;
+            padding: 0.35rem 0.8rem;
+            font: inherit;
+            font-size: 0.875rem;
+            color: var(--teal);
+            background: transparent;
+            border: 1px solid var(--rule);
+            border-radius: 999px;
+            cursor: pointer;
+        }
+
+        .theme-toggle:hover { border-color: var(--teal); }
 
         body {
             margin: 0 auto;
@@ -54,6 +90,8 @@
 </head>
 
 <body>
+<button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode"></button>
+
 <h1>Dev Agarwal</h1>
 <p class="tagline">I'm taking CS52: Full-Stack Web Development.</p>
 
@@ -70,5 +108,24 @@
 <footer>
     <p>Thanks for visiting!</p>
 </footer>
+<script>
+    var root = document.documentElement;
+    var toggle = document.getElementById('theme-toggle');
+
+    function renderToggle() {
+        var dark = root.dataset.theme === 'dark';
+        toggle.textContent = dark ? '☀️ Light' : '🌙 Dark';
+        toggle.setAttribute('aria-pressed', dark);
+    }
+
+    toggle.addEventListener('click', function () {
+        var next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        renderToggle();
+    });
+
+    renderToggle();
+</script>
 </body>
 </html>
