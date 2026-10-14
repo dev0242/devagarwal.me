@@ -41,6 +41,9 @@
 
         .tagline { color: var(--muted); margin-top: 0; }
 
+        nav { font-size: 0.875rem; }
+        nav a { margin-right: 1rem; }
+
         a { color: var(--teal); text-underline-offset: 3px; }
 
         footer {
@@ -51,24 +54,44 @@
             color: var(--muted);
         }
     </style>
+
+    <script>
+        // Keep the copyright year in the footer current
+        document.getElementById('year').textContent = new Date().getYear();
+    </script>
 </head>
 
 <body>
 <h1>Dev Agarwal</h1>
 <p class="tagline">I'm taking CS52: Full-Stack Web Development.</p>
 
-<h2>My classes:</h2>
+<nav>
+    <a href="#classes">Classes</a>
+    <a href="#projects">Projects</a>
+    <a href="#links">Links</a>
+</nav>
+
+<h2 id="classes">My classes:</h2>
 <ul>
     <li>CS52!</li>
 </ul>
 
-<h2>Links</h2>
+<h2 id="projects">Projects</h2>
+<ul>
+    <li>
+        <a href="https://github.com/dev0242/devagarwal.me" target="_blank">devagarwal.me</a>
+        &mdash; this site, a hand-written static page hosted on GitHub Pages.
+    </li>
+</ul>
+
+<h2 id="links">Links</h2>
 <ul>
     <li><a href="https://github.com/dev0242">GitHub</a></li>
 </ul>
 
 <footer>
     <p>Thanks for visiting!</p>
+    <p>&copy; <span id="year"></span> Dev Agarwal</p>
 </footer>
 </body>
 </html>
